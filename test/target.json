@@ -1,0 +1,7 @@
+{
+  "web": {
+    "baseUrl": "http://qa.digift.ru/",
+    "username": "HR",
+    "password": "test"
+  }
+}
