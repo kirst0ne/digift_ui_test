@@ -26,13 +26,6 @@ def app(request):
         fixture = Application(browser=browser, base_url=web_config['baseUrl'])
     return fixture
 
-#@pytest.fixture(scope="session")
-#def app(request):
-#    fixture = Application()
-#    fixture.open_home_page()
-#    request.addfinalizer(fixture.destroy)
-#    return fixture
-
 
 @pytest.fixture(scope="session", autouse=True)
 def stop(request, app):
