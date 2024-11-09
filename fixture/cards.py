@@ -18,16 +18,20 @@ class NominalCardsHelper:
             self.activate_card(i)
             self.check_active_button(i)
             self.check_inactive_buttons(i)
+            self.check_nominal_value(i)
 
     def check_active_button(self, index):
-        active_button = self.app.wd.find_element_by_xpath(f"//li[{index}]/button[contains(@class, 'par-options__button--active')]")
+        active_button = self.app.wd.find_element_by_xpath(
+            f"//li[{index}]/button[contains(@class, 'par-options__button--active')]"
+        )
         assert active_button.is_enabled(), f"Button {index} should be active after clicking"
 
     def check_inactive_buttons(self, active_index):
         for j in range(1, 7):
             if j != active_index:
                 inactive_button = self.app.wd.find_element_by_xpath(f"//li[{j}]/button")
-                assert not inactive_button.get_attribute("class") == "par-options__button--active", f"Button {j} should not be active"
+                assert not inactive_button.get_attribute("class") == "par-options__button--active",\
+                    f"Button {j} should not be active"
 
     def find_nominal_card_element(self):
         self.app.open_home_page()
@@ -48,3 +52,14 @@ class NominalCardsHelper:
 
     def activate_initial_card(self):
         self.activate_card(3)
+
+    def get_button_value(self, index):
+        return self.app.wd.find_element_by_xpath(f"//li[{index}]/button").text
+
+    def get_nominal_value(self):
+        return self.app.wd.find_element_by_id("range-value-input").get_attribute('value')
+
+    def check_nominal_value(self, index):
+        button_value = self.get_button_value(index)
+        nominal_value = self.get_nominal_value()
+        assert nominal_value == button_value, f"Expected nominal value '{button_value}' but got '{nominal_value}'"
